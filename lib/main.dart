@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterappdemo2/day4ui.dart';
 import 'package:flutterappdemo2/day6listviewdemo.dart';
+import 'package:flutterappdemo2/login.dart';
 import 'day7fb.dart';
 import 'mynextscreen.dart';
 import 'day5ui.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.purple,
       ),
-      home: MyFirebasePage(),
+      home: LoginPage(),
     );
   }
 }
