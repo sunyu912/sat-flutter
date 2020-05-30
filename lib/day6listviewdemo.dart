@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class FriendListView extends StatefulWidget {
@@ -6,6 +7,27 @@ class FriendListView extends StatefulWidget {
 }
 
 class _FriendListViewState extends State<FriendListView> {
+
+  _FriendListViewState() {
+    // let's load all the students data from Firebase
+    FirebaseDatabase.instance.reference().child("students").once().then((value) {
+      print("Successfully loaded the student data.");
+      var stuList = [];
+      value.value.forEach((k, v) {
+        print(k);
+        print(v);
+        v['comment'] = 0;
+        v['image'] = 'https://www.click2houston.com/resizer/YL2Xl3rUeyUhqkv2G73OhtoRbrY=/1280x914/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/WMCWF6HAMBECPFPFNWYQENJYGE.jpg';
+        v['min'] = 0;
+        v['like'] = 0;
+        v['share'] = 0;
+        stuList.add(v);
+      });
+      print(stuList);
+    }).catchError((error){
+      print("Failed to load the student data.");
+    });
+  }
 
   var friendList = [
     {
