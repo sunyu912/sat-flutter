@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "672670201016",
+    "firebase_url": "https://sat-flutter.firebaseio.com",
+    "project_id": "sat-flutter",
+    "storage_bucket": "sat-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672670201016:android:cdf8cee16c07aad6e6704d",
+        "android_client_info": {
+          "package_name": "com.example.flutterappdemo2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "672670201016-bpfc2r94m28aen9o6lipk5eak0r5hst4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqOibdquQwoOrOvMbrp1vscpMTVzlxG84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "672670201016-bpfc2r94m28aen9o6lipk5eak0r5hst4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
