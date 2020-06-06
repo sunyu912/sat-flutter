@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterappdemo2/friend_list_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -62,6 +63,10 @@ class _LoginPageState extends State<LoginPage> {
                       email: emailController.text, password: passwordController.text)
                       .then((value) {
                         print("Successfully sign in");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => FriendListPage()),
+                        );
                       }).catchError((error) {
                         print("Failed to sign in");
                         print(error);
