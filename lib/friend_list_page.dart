@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class FriendListPage extends StatefulWidget {
@@ -8,8 +9,24 @@ class FriendListPage extends StatefulWidget {
 class _FriendListPageState extends State<FriendListPage> {
 
   var friendList = [];
+  _FriendListPageState() {
+    FirebaseDatabase.instance.reference().child("users").once().then((value) {
+      print("Successfully loaded the student data.");
+      var stuList = [];
+      value.value.forEach((k, v) {
+        print(k);
+        print(v);
+        stuList.add(v);
+      });
+      print(stuList);
+      friendList = stuList;
+      setState(() {
 
-
+      });
+    }).catchError((error) {
+      print("Failed to load the student data." + error.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +39,11 @@ class _FriendListPageState extends State<FriendListPage> {
                   itemCount: friendList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
+                      margin: EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          Text("$friendList[index]['name']"),
-                          Text("$friendList[index]['school']")
+                          Text("${friendList[index]['name']} | "),
+                          Text("${friendList[index]['school']}")
                         ],
                       ),
                     );
