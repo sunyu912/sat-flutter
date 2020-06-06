@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,6 +11,8 @@ class _LoginPageState extends State<LoginPage> {
 
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var nameController = TextEditingController();
+  var schoolController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,22 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: 'Password',
                 ),
               ),
+              TextField(
+                controller: nameController,
+                obscureText: false,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Name',
+                ),
+              ),
+              TextField(
+                controller: schoolController,
+                obscureText: false,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'School',
+                ),
+              ),
               RaisedButton(
                 child: Text("Login"),
                 onPressed: () {
@@ -56,7 +75,20 @@ class _LoginPageState extends State<LoginPage> {
                       email: emailController.text, password: passwordController.text)
                       .then((value) {
                         print("Successfully signed up. ");
-                        print(value);
+                        var uid = value.user.uid;
+                        FirebaseDatabase.instance.reference().child('users/' + uid).set(
+                          {
+                            'uid' : uid,
+                            'email' : emailController.text.toString(),
+                            'name' : nameController.text.toString(),
+                            'school' : schoolController.text.toString(),
+                          }
+                        ).then((value) {
+                          print("Successfully signed up the user with details.");
+                        }).catchError((error) {
+                          print("Failed to put the details.");
+                          print(error);
+                        });
                       }).catchError((error){
                         print("Failed to sign up");
                         print(error);
