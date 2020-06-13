@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterappdemo2/group_chat.dart';
 
 class FriendListPage extends StatefulWidget {
   @override
@@ -50,6 +51,16 @@ class _FriendListPageState extends State<FriendListPage> {
                   })
           )
         ],
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.message),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => GroupChatPage()),
+          );
+        },
       ),
     );
   }
