@@ -76,6 +76,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                             ),
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
@@ -93,8 +94,13 @@ class _GroupChatPageState extends State<GroupChatPage> {
                               ),
 
                               Container(
+                                margin: EdgeInsets.only(top: 3),
                                 child: Text(
                                   'Sent at ${new DateTime.fromMillisecondsSinceEpoch(messageList[index]['timestamp']).toString()}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey
+                                  ),
                                 ),
                               )
                             ],
