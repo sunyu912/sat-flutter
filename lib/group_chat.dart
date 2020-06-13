@@ -1,9 +1,9 @@
 import 'dart:async';
-
+import 'package:getflutter/getflutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quiver/async.dart';
+
 
 class GroupChatPage extends StatefulWidget {
   @override
@@ -64,9 +64,17 @@ class _GroupChatPageState extends State<GroupChatPage> {
                   itemCount: messageList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      margin: EdgeInsets.all(20),
+                      margin: EdgeInsets.all(10),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Container(
+                            margin: EdgeInsets.all(5),
+                            child: GFAvatar(
+                                backgroundImage: NetworkImage('https://bnbkeepers.com/assets/avatars/profile-pic.jpg'),
+                                shape: GFAvatarShape.standard
+                            ),
+                          ),
                           Container(
                             decoration: BoxDecoration(
                               color: Color(0xFFA0E759),
