@@ -111,9 +111,13 @@ class _GroupChatPageState extends State<GroupChatPage> {
                         .set(message)
                         .then((value) {
                           print("Message sent");
-                        }).catchError((error) {
+                          messageController.text = "";
+                          FocusScope.of(context).requestFocus(FocusNode());
+                    }).catchError((error) {
                           print("Failed to send the message");
-                        });
+                          messageController.text = "";
+                          FocusScope.of(context).requestFocus(FocusNode());
+                    });
 
                   },
                 )
