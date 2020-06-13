@@ -67,7 +67,20 @@ class _GroupChatPageState extends State<GroupChatPage> {
                       margin: EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          Text(messageList[index]['message']),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFFA0E759),
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                            ),
+                            width: 280,
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                                messageList[index]['message'],
+                                style: TextStyle(
+                                  fontSize: 16
+                                ),
+                            ),
+                          ),
                         ],
                       ),
                     );
