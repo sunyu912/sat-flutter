@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterappdemo2/GlobalInfo.dart';
 import 'package:flutterappdemo2/friend_list_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -63,10 +64,24 @@ class _LoginPageState extends State<LoginPage> {
                       email: emailController.text, password: passwordController.text)
                       .then((value) {
                         print("Successfully sign in");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => FriendListPage()),
-                        );
+                        print(value.user.uid);
+                        
+                        FirebaseDatabase.instance.reference().child("users/" + value.user.uid).once()
+                            .then((ds) {
+                              print(ds.key);
+                              print(ds.value);
+                              GlobalInfo.userInfo = ds.value;
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => FriendListPage()),
+                              );
+
+                            }).catchError((e) {
+                              print("Failed to get the user information");
+                            });
+
+
                       }).catchError((error) {
                         print("Failed to sign in");
                         print(error);

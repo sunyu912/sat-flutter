@@ -4,6 +4,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'GlobalInfo.dart';
+
 
 class GroupChatPage extends StatefulWidget {
   @override
@@ -55,6 +57,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFEBEBEB),
       body: Center(
         child: Column(
           children: [
@@ -69,7 +72,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.all(5),
+                            margin: EdgeInsets.only(right: 5),
                             child: GFAvatar(
                                 backgroundImage: NetworkImage('https://bnbkeepers.com/assets/avatars/profile-pic.jpg'),
                                 shape: GFAvatarShape.standard
@@ -96,7 +99,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                               Container(
                                 margin: EdgeInsets.only(top: 3),
                                 child: Text(
-                                  'Sent at ${new DateTime.fromMillisecondsSinceEpoch(messageList[index]['timestamp']).toString()}',
+                                  'Sent at ${DateTime.fromMillisecondsSinceEpoch(messageList[index]['timestamp']).toString()}',
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey
@@ -127,6 +130,8 @@ class _GroupChatPageState extends State<GroupChatPage> {
                     // form a message
                     var timestamp = new DateTime.now().millisecondsSinceEpoch;
                     var message = {
+                      'uid' : GlobalInfo.userInfo['uid'],
+                      'name' : GlobalInfo.userInfo['name'],
                       'timestamp' : timestamp,
                       'message' : messageController.text,
                     };
