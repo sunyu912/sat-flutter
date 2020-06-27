@@ -8,6 +8,11 @@ import 'GlobalInfo.dart';
 
 
 class GroupChatPage extends StatefulWidget {
+
+  var targetUser;
+
+  GroupChatPage(this.targetUser);
+
   @override
   _GroupChatPageState createState() => _GroupChatPageState();
 }
@@ -19,17 +24,29 @@ class _GroupChatPageState extends State<GroupChatPage> {
 
   var messageList = [];
 
-  _GroupChatPageState() {
+  var messagePath = "messages";
+
+
+  @override
+  void initState() {
+    if (widget.targetUser != 'group') {
+      messagePath =
+          widget.targetUser.compareTo(GlobalInfo.userInfo['uid']) > 0 ?
+          widget.targetUser + "-" + GlobalInfo.userInfo['uid']
+              :
+          GlobalInfo.userInfo['uid'] + "-" + widget.targetUser;
+    }
+
     refreshMessages();
 
-    FirebaseDatabase.instance.reference().child("messages").onChildAdded.listen((event) {
+    FirebaseDatabase.instance.reference().child(messagePath).onChildAdded.listen((event) {
       print("New messaged is added!");
       refreshMessages();
     });
   }
 
   void refreshMessages() {
-    FirebaseDatabase.instance.reference().child("messages").once()
+    FirebaseDatabase.instance.reference().child(messagePath).once()
         .then((ds) {
       print(ds.key);
       print(ds.value);
@@ -188,7 +205,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                       'message' : messageController.text,
                     };
                     // send the message to Firebase
-                    FirebaseDatabase.instance.reference().child("messages/" + timestamp.toString())
+                    FirebaseDatabase.instance.reference().child(messagePath + "/" + timestamp.toString())
                         .set(message)
                         .then((value) {
                           print("Message sent");
