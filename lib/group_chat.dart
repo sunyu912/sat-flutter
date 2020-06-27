@@ -135,7 +135,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                             children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFA0E759),
+                                  color: Color(0xFFFFFFFF),
                                   borderRadius: BorderRadius.all(Radius.circular(5)),
                                 ),
 //                                width: 280,

@@ -39,13 +39,18 @@ class _FriendListPageState extends State<FriendListPage> {
               child: ListView.builder(
                   itemCount: friendList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Text("${friendList[index]['name']} | "),
-                          Text("${friendList[index]['school']}")
-                        ],
+                    return ListTile(
+                      onTap: () {
+                        print(friendList[index]);
+                      },
+                      title: Container(
+                        margin: EdgeInsets.all(20),
+                        child: Row(
+                          children: [
+                            Text("${friendList[index]['name']} | "),
+                            Text("${friendList[index]['school']}")
+                          ],
+                        ),
                       ),
                     );
                   })
