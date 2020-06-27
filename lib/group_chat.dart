@@ -66,7 +66,59 @@ class _GroupChatPageState extends State<GroupChatPage> {
                   controller: scrollController,
                   itemCount: messageList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
+
+                    // return  a > b ? true : false;
+
+                    return
+                      GlobalInfo.userInfo['uid'] == messageList[index]['uid'] ?
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFA0E759),
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  ),
+//                                  width: 280,
+                                  padding: EdgeInsets.all(10),
+                                  child: Text(
+                                    messageList[index]['message'],
+                                    style: TextStyle(
+                                        fontSize: 16
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  margin: EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    'Sent at ${DateTime.fromMillisecondsSinceEpoch(messageList[index]['timestamp']).toString()}',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 5),
+                              child: GFAvatar(
+                                  backgroundImage: NetworkImage('https://bnbkeepers.com/assets/avatars/profile-pic.jpg'),
+                                  shape: GFAvatarShape.standard
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                      :
+                      Container(
                       margin: EdgeInsets.all(10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +138,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                                   color: Color(0xFFA0E759),
                                   borderRadius: BorderRadius.all(Radius.circular(5)),
                                 ),
-                                width: 280,
+//                                width: 280,
                                 padding: EdgeInsets.all(10),
                                 child: Text(
                                     messageList[index]['message'],
