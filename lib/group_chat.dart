@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:camera/camera.dart';
+import 'package:flutterappdemo2/take_picture.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -192,6 +194,21 @@ class _GroupChatPageState extends State<GroupChatPage> {
                       labelText: 'Type your message here',
                     ),
                   ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.camera_alt),
+                  onPressed: () async {
+                    // Obtain a list of the available cameras on the device.
+                    final cameras = await availableCameras();
+                    // Get a specific camera from the list of available cameras.
+                    final firstCamera = cameras.first;
+                    // Go to the take picture screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera)),
+                    );
+
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.send),

@@ -13,6 +13,7 @@ class _FriendListPageState extends State<FriendListPage> {
 
   var friendList = [];
   _FriendListPageState() {
+
     FirebaseDatabase.instance.reference().child("users").once().then((value) {
       print("Successfully loaded the student data.");
       var stuList = [];
@@ -23,6 +24,22 @@ class _FriendListPageState extends State<FriendListPage> {
       });
       print(stuList);
       friendList = stuList;
+
+      friendList.forEach((friend) {
+        friend['newMessage'] = false;
+        var messagePath =
+          friend['uid'].compareTo(GlobalInfo.userInfo['uid']) > 0 ?
+          friend['uid'] + "-" + GlobalInfo.userInfo['uid']
+              :
+          GlobalInfo.userInfo['uid'] + "-" + friend['uid'];
+
+        FirebaseDatabase.instance.reference().child(messagePath).onChildAdded.listen((event) {
+          print("New messaged is added! ");
+          print(messagePath);
+          friend['newMessage'] = true;
+        });
+      });
+
       setState(() {
 
       });
@@ -54,7 +71,12 @@ class _FriendListPageState extends State<FriendListPage> {
                         margin: EdgeInsets.all(20),
                         child: Row(
                           children: [
-                            Text("${friendList[index]['name']} | "),
+                            Text(
+                                "${friendList[index]['name']} | ",
+                              style: TextStyle(
+                                color: friendList[index]['newMessage'] ? Colors.red : Colors.black
+                              ),
+                            ),
                             Text("${friendList[index]['school']}")
                           ],
                         ),
