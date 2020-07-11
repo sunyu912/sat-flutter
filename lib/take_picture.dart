@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
@@ -88,12 +89,14 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             await _controller.takePicture(path);
 
             // If the picture was taken, display it on a new screen.
-            Navigator.push(
+            var url = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen(imagePath: path),
               ),
             );
+            Navigator.pop(context, url);
+
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);
@@ -116,7 +119,32 @@ class DisplayPictureScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      body: Column(
+        children: <Widget>[
+          Image.file(File(imagePath)),
+          RaisedButton(
+            child: Text("Upload"),
+            onPressed: () {
+              var file = File(imagePath);
+              var fileName = "photo-" + DateTime.now().millisecondsSinceEpoch.toString() + ".jpg";
+              FirebaseStorage.instance.ref().child("photos/" + fileName)
+                  .putFile(file).events.listen((event) {
+                 if (event.type == StorageTaskEventType.success) {
+                   print("Success!");
+                   FirebaseStorage.instance.ref().child("photos/" + fileName).getDownloadURL()
+                   .then((value) {
+                     print(value);
+                     Navigator.pop(context, value.toString());
+                   }).catchError((error) {
+
+                   });
+
+                 }
+              });
+            },
+          )
+        ],
+      ),
     );
   }
 }

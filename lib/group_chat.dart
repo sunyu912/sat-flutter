@@ -106,7 +106,10 @@ class _GroupChatPageState extends State<GroupChatPage> {
                                   ),
 //                                  width: 280,
                                   padding: EdgeInsets.all(10),
-                                  child: Text(
+                                  child: messageList[index]['message'].startsWith("https") ?
+                                  Image.network(messageList[index]['message'])
+                                  :
+                                  Text(
                                     messageList[index]['message'],
                                     style: TextStyle(
                                         fontSize: 16
@@ -159,7 +162,10 @@ class _GroupChatPageState extends State<GroupChatPage> {
                                 ),
 //                                width: 280,
                                 padding: EdgeInsets.all(10),
-                                child: Text(
+                                child: messageList[index]['message'].startsWith('https') ?
+                                Image.network(messageList[index]['message'])
+                                :
+                                Text(
                                     messageList[index]['message'],
                                     style: TextStyle(
                                       fontSize: 16
@@ -203,10 +209,31 @@ class _GroupChatPageState extends State<GroupChatPage> {
                     // Get a specific camera from the list of available cameras.
                     final firstCamera = cameras.first;
                     // Go to the take picture screen
-                    Navigator.push(
+                    var url = await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TakePictureScreen(camera: firstCamera)),
                     );
+
+                    print("final url " + url);
+                    var timestamp = new DateTime.now().millisecondsSinceEpoch;
+                    var message = {
+                      'uid' : GlobalInfo.userInfo['uid'],
+                      'name' : GlobalInfo.userInfo['name'],
+                      'timestamp' : timestamp,
+                      'message' : url,
+                    };
+                    // send the message to Firebase
+                    FirebaseDatabase.instance.reference().child(messagePath + "/" + timestamp.toString())
+                        .set(message)
+                        .then((value) {
+                      print("Message sent");
+                      messageController.text = "";
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    }).catchError((error) {
+                      print("Failed to send the message");
+                      messageController.text = "";
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    });
 
                   },
                 ),
