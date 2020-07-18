@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterappdemo2/group_chat.dart';
+import 'package:flutterappdemo2/map_view.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'GlobalInfo.dart';
 
@@ -12,7 +14,20 @@ class FriendListPage extends StatefulWidget {
 class _FriendListPageState extends State<FriendListPage> {
 
   var friendList = [];
+
   _FriendListPageState() {
+
+    Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((value) {
+      print(value);
+    });
+
+    var geolocator = Geolocator();
+    var locationOptions = LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+
+    geolocator.getPositionStream(locationOptions).listen(
+            (Position position) {
+          print(position == null ? 'Unknown' : position.latitude.toString() + ', ' + position.longitude.toString());
+        });
 
     FirebaseDatabase.instance.reference().child("users").once().then((value) {
       print("Successfully loaded the student data.");
@@ -54,6 +69,15 @@ class _FriendListPageState extends State<FriendListPage> {
       body: Column(
         children: [
           Text("Test"),
+          RaisedButton(
+            child: Text("Map View"),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MapViewPage()),
+              );
+            },
+          ),
           Expanded(
               child: ListView.builder(
                   itemCount: friendList.length,
